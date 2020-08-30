@@ -803,6 +803,20 @@ STATIC mp_obj_t mp_rmtlib_samsung_send(size_t mp_n_args, const mp_obj_t *mp_args
 STATIC MP_DEFINE_CONST_LV_FUN_OBJ_VAR(mp_rmtlib_samsung_send_obj, 1, mp_rmtlib_samsung_send, rmtlib_samsung_send);
 
 
+/*
+ * ir extension definition for:
+ * void rmtlib_sony_send(unsigned long data)
+ */
+ 
+STATIC mp_obj_t mp_rmtlib_sony_send(size_t mp_n_args, const mp_obj_t *mp_args)
+{
+    unsigned long data = (unsigned long)mp_obj_get_int(mp_args[0]);
+    rmtlib_sony_send(data);
+    return mp_const_none;
+}
+
+STATIC MP_DEFINE_CONST_LV_FUN_OBJ_VAR(mp_rmtlib_sony_send_obj, 1, mp_rmtlib_sony_send, rmtlib_sony_send);
+
 
 /*
  * ir extension definition for:
@@ -819,6 +833,29 @@ STATIC mp_obj_t mp_rmtlib_rc5_send(size_t mp_n_args, const mp_obj_t *mp_args)
 STATIC MP_DEFINE_CONST_LV_FUN_OBJ_VAR(mp_rmtlib_rc5_send_obj, 1, mp_rmtlib_rc5_send, rmtlib_rc5_send);
 
 
+/*
+ * ir extension definition for:
+ * void rmtlib_raw_send(int frequency, int data[])
+ */
+ 
+STATIC mp_obj_t mp_rmtlib_raw_send(size_t mp_n_args, const mp_obj_t *mp_args)
+{
+    // retrieve frequency from mp_args
+    unsigned int frequency = (unsigned int)mp_obj_get_int(mp_args[0]);
+
+    // retrieve data from mp_args
+    mp_uint_t data_len;
+    mp_obj_t *data;
+    mp_obj_get_array(mp_args[1], &data_len, &data);
+
+    // call rmtlib_raw_send
+    rmtlib_raw_send(frequency, (int *)data, (int)data_len);
+    return mp_const_none;
+}
+
+STATIC MP_DEFINE_CONST_LV_FUN_OBJ_VAR(mp_rmtlib_raw_send_obj, 2, mp_rmtlib_raw_send, rmtlib_raw_send);
+
+
 
 /*
  * ir module definitions
@@ -829,6 +866,8 @@ STATIC const mp_rom_map_elem_t ir_globals_table[] = {
     
     { MP_ROM_QSTR(MP_QSTR_rmtlib_nec_send), MP_ROM_PTR(&mp_rmtlib_nec_send_obj) },
     { MP_ROM_QSTR(MP_QSTR_rmtlib_samsung_send), MP_ROM_PTR(&mp_rmtlib_samsung_send_obj) },
+    { MP_ROM_QSTR(MP_QSTR_rmtlib_sony_send), MP_ROM_PTR(&mp_rmtlib_sony_send_obj) },
+    { MP_ROM_QSTR(MP_QSTR_rmtlib_raw_send), MP_ROM_PTR(&mp_rmtlib_raw_send_obj) },
     { MP_ROM_QSTR(MP_QSTR_rmtlib_rc5_send), MP_ROM_PTR(&mp_rmtlib_rc5_send_obj) }
 
 

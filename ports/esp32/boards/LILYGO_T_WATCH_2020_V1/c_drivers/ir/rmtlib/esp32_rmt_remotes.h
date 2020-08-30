@@ -13,6 +13,9 @@
 #define RECEIVE_SAMSUNG		0
 #define SEND_RC5			1
 #define RECEIVE_RC5			0
+#define SEND_SONY           1
+#define RECEIVE_SONY        0
+#define SEND_RAW            1
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,6 +45,14 @@ void rmtlib_rc5_send(unsigned long data);
 
 #ifdef RECEIVE_RC5
 void rmtlib_rc5_receive();
+#endif
+
+#ifdef SEND_SONY
+void rmtlib_sony_send(unsigned long data);
+#endif
+
+#ifdef SEND_RAW
+void rmtlib_raw_send(unsigned int frequency, int data[], int data_len);
 #endif
 
 #ifdef __cplusplus
